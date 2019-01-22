@@ -12,7 +12,9 @@
         AllowsTransparency="True" Background="Transparent"
         Topmost="True"
         ShowInTaskbar="False"
-        Title="MainWindow" Height="128" Width="128">
+        Icon="Resources/icon.ico"
+        Stylus.IsPressAndHoldEnabled="False" Stylus.IsFlicksEnabled="False" Stylus.IsTapFeedbackEnabled="False"
+        Title="QuickRotate" Height="128" Width="128">
     
     <!-- ViewModel -->
     <Window.DataContext>
