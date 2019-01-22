@@ -1,0 +1,56 @@
+﻿<Grid x:Class="QuickRotate.RotateView"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+              xmlns:invokehelper="clr-namespace:MVVMHelper;assembly=MVVMHelper"
+              xmlns:local="clr-namespace:QuickRotate"
+              mc:Ignorable="d"
+              d:DesignHeight="128" d:DesignWidth="128">
+
+    <!-- ViewModel -->
+    <Grid.DataContext>
+        <local:RotateViewModel />
+    </Grid.DataContext>
+
+    <!-- Event Trigger -->
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <local:RotateToggleButton Command="{Binding ClickCommand}"
+                              CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}">
+        <!-- Event Trigger -->
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="LongPressed">
+                <i:InvokeCommandAction Command="{Binding LongPressedCommand}" />
+            </i:EventTrigger>
+            <i:EventTrigger EventName="ReleaseLongPressed">
+                <i:InvokeCommandAction Command="{Binding LongPressedReleaseCommand}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+
+        <!-- Template -->
+        <ToggleButton.Template>
+            <ControlTemplate>
+                <Grid>
+                    <Image x:Name="image_on" Source="Resources/Images/btn_rotate_p.png" Opacity="0" />
+                    <Image x:Name="image_off" Source="Resources/Images/btn_rotate_n.png" Opacity="1" />
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsEnabled}" Value="True">
+                        <Setter Property="Opacity" Value="1.0" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsEnabled}" Value="False">
+                        <Setter Property="Opacity" Value="0.5" />
+                    </DataTrigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </ToggleButton.Template>
+    </local:RotateToggleButton>
+
+</Grid>
