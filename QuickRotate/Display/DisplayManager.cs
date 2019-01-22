@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Display
 {
     static class DisplayManager
     {
+        public static string InvalidOperation_Disp_Change_BadDualView { get; set; }
+        public static string InvalidOperation_Disp_Change_BadParam { get; set; }
+        public static string InvalidOperation_Disp_Change_BadFlags { get; set; }
+        public static string InvalidOperation_Disp_Change_NotUpdated { get; set; }
+        public static string InvalidOperation_Disp_Change_BadMode { get; set; }
+        public static string InvalidOperation_Disp_Change_Failed { get; set; }
+        public static string InvalidOperation_Disp_Change_Restart { get; set; }
+        public static string InvalidOperation_FatalError { get; set; }
+
         /// <summary>
         /// Returns a DisplaySettings object encapsulates the current display settings.
         /// </summary>
@@ -34,28 +44,29 @@ namespace Display
             DisplayChangeResult result = (DisplayChangeResult)SafeNativeMethods.ChangeDisplaySettings(ref mode, 0);
 
             string msg = null;
+            Assembly asm = Assembly.GetExecutingAssembly();
             switch (result)
             {
                 case DisplayChangeResult.BadDualView:
-                    //msg = QuickRotate.Properties.Resources.InvalidOperation_Disp_Change_BadDualView;
+                    msg = InvalidOperation_Disp_Change_BadDualView;
                     break;
                 case DisplayChangeResult.BadParam:
-                    //msg = QuickRotate.Properties.Resources.InvalidOperation_Disp_Change_BadParam;
+                    msg = InvalidOperation_Disp_Change_BadParam;
                     break;
                 case DisplayChangeResult.BadFlags:
-                    //msg = QuickRotate.Properties.Resources.InvalidOperation_Disp_Change_BadFlags;
+                    msg = InvalidOperation_Disp_Change_BadFlags;
                     break;
                 case DisplayChangeResult.NotUpdated:
-                    //msg = QuickRotate.Properties.Resources.InvalidOperation_Disp_Change_NotUpdated;
+                    msg = InvalidOperation_Disp_Change_NotUpdated;
                     break;
                 case DisplayChangeResult.BadMode:
-                    //msg = QuickRotate.Properties.Resources.InvalidOperation_Disp_Change_BadMode;
+                    msg = InvalidOperation_Disp_Change_BadMode;
                     break;
                 case DisplayChangeResult.Failed:
-                    //msg = QuickRotate.Properties.Resources.InvalidOperation_Disp_Change_Failed;
+                    msg = InvalidOperation_Disp_Change_Failed;
                     break;
                 case DisplayChangeResult.Restart:
-                    //msg = QuickRotate.Properties.Resources.InvalidOperation_Disp_Change_Restart;
+                    msg = InvalidOperation_Disp_Change_Restart;
                     break;
             }
 
@@ -154,7 +165,7 @@ namespace Display
             string msg;
 
             if (SafeNativeMethods.FormatMessage(SafeNativeMethods.FORMAT_MESSAGE_FLAGS, SafeNativeMethods.FORMAT_MESSAGE_FROM_HMODULE, (uint)err, 0, out msg, 0, 0) == 0)
-                return msg; // QuickRotate.Properties.Resources.InvalidOperation_FatalError;
+                return InvalidOperation_FatalError;
             else
                 return msg;
         }
