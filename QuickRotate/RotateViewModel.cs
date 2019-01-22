@@ -47,7 +47,7 @@ namespace QuickRotate
         private void OnClick(object param)
         {
             //DisplayManager.RotateScreen(false);
-            MessageBox.Show("Rotate!!");
+            DisplayManager.ReverseScreen();
         }
 
         private void OnLongPressed(object param)

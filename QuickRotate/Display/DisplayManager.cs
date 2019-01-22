@@ -93,15 +93,42 @@ namespace Display
                 yield return CreateDisplaySettingsObject(idx++, mode);
         }
 
+        public static int GetAngle()
+        {
+            int rotation = 0;
+
+            DisplaySettings set = DisplayManager.GetCurrentSettings();
+
+            switch (set.Orientation)
+            {
+                case Orientation.Default:
+                    rotation = 0;
+                    break;
+                case Orientation.Clockwise90:
+                    rotation = 90;
+                    break;
+                case Orientation.Clockwise180:
+                    rotation = 180;
+                    break;
+                case Orientation.Clockwise270:
+                    rotation = 270;
+                    break;
+            }
+
+            return rotation;
+        }
+
         /// <summary>
         /// Rotates the screen from its current location by 90 degrees either clockwise or anti-clockwise.
         /// </summary>
         /// <param name="clockwise">Set to true to rotate the screen 90 degrees clockwise from its current location, or false to rotate it anti-clockwise.</param>
-        public static void RotateScreen(bool clockwise)
+        public static int RotateScreen(bool clockwise)
         {
+            int rotation = 0;
+
             DisplaySettings set = DisplayManager.GetCurrentSettings();
 
-            /*int tmp = set.Height;
+            int tmp = set.Height;
             set.Height = set.Width;
             set.Width = tmp;
 
@@ -109,16 +136,64 @@ namespace Display
                 set.Orientation++;
             else
                 set.Orientation--;
-            */
-            /*if (set.Orientation < Orientation.Default)
+
+            if (set.Orientation < Orientation.Default)
                 set.Orientation = Orientation.Clockwise270;
             else if (set.Orientation > Orientation.Clockwise270)
-                set.Orientation = Orientation.Default;*/
-
-            if (set.Orientation == Orientation.Default) set.Orientation = Orientation.Clockwise180;
-            else if (set.Orientation == Orientation.Clockwise180) set.Orientation = Orientation.Default;
+                set.Orientation = Orientation.Default;
 
             SetDisplaySettings(set);
+
+            switch (set.Orientation)
+            {
+                case Orientation.Default:
+                    rotation = 0;
+                    break;
+                case Orientation.Clockwise90:
+                    rotation = 90;
+                    break;
+                case Orientation.Clockwise180:
+                    rotation = 180;
+                    break;
+                case Orientation.Clockwise270:
+                    rotation = 270;
+                    break;
+            }
+
+            return rotation;
+        }
+
+        public static int ReverseScreen()
+        {
+            int rotation = 0;
+            DisplaySettings set = DisplayManager.GetCurrentSettings();
+
+            set.Orientation += 2;
+
+            if (set.Orientation == Orientation.Clockwise270 + 2)
+                set.Orientation = Orientation.Clockwise90;
+            else if (set.Orientation == Orientation.Clockwise180 + 2)
+                set.Orientation = Orientation.Default;
+
+            SetDisplaySettings(set);
+
+            switch (set.Orientation)
+            {
+                case Orientation.Default:
+                    rotation = 0;
+                    break;
+                case Orientation.Clockwise90:
+                    rotation = 90;
+                    break;
+                case Orientation.Clockwise180:
+                    rotation = 180;
+                    break;
+                case Orientation.Clockwise270:
+                    rotation = 270;
+                    break;
+            }
+
+            return rotation;
         }
 
 
